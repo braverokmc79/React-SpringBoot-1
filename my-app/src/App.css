@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+.hello{
+  color: red;
+}
+.box-style{
+  color: rgb(64, 159, 116);
+}
