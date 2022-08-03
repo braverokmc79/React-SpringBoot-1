@@ -1,5 +1,7 @@
 import logo from './logo.svg';
+
 import "./App.css";
+import Wood from './wood';
 
 //0.React 엔진 - 데이터변경감지에서UI 그려주는 !
 //1.실행과정(index.html) SPA 
@@ -16,25 +18,20 @@ import "./App.css";
 //- 라이브러리 사용 (부트스트랩, component-sytled)
 
 
-let a = 10;
-let b = 20;
 
 function App() {
-  let c;
-  let d = undefined;
+  let list = [1, 2, 3];
 
-  console.log(2, c, d);
+  return (
+    <div>
+      <div>
+        {list.map(function (n) {
+          return <h1>{n}</h1>;
+        })}
+      </div>
+    </div>
 
-  // const myStyle = {
-  //   color: "red"
-  // };
-
-
-  return <div>안녕11333
-    <div class="hello">안녕 {a === 10 ? '1' : '999'}</div>
-    <h1 className='box-style'>해딩태그 {b === 20 && '20입니다.'}</h1>
-    <hr />
-  </div >
+  )
     ;
 
 
