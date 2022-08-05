@@ -8,7 +8,7 @@ const HomePage = () => {
     //http요청 (jquery ajax, fetch, axios(다운))
     const [boards, setBoards] = useState([]);
     const [number, setNumber] = useState(0);
-
+    const [user, setUser] = useState([]);
 
 
     //빈 배열이면 한번만 실행
@@ -22,6 +22,7 @@ const HomePage = () => {
         ];
 
         setBoards([...data]);
+        setUser({ id: 1, username: 'ssar' });
 
     }, [])
 
@@ -29,7 +30,7 @@ const HomePage = () => {
     return (
         <div>
             <Header />
-            <Home boards={boards} setBoards={setBoards} number={number} setNumber={setNumber} />
+            <Home boards={boards} setBoards={setBoards} user={user} number={number} setNumber={setNumber} />
             <Footer />
         </div>
     );

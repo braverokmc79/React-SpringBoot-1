@@ -8,11 +8,12 @@ import styled from 'styled-components';
 const StyleHeaderDiv = styled.div`
     border: 1px solid black;
     height: 300px;
+    background-color: ${(props) => props.backgroundColor};
 `;
 
 const Header = () => {
     return (
-        <StyleHeaderDiv>
+        <StyleHeaderDiv backgroundColor="blue" >
             <div>
                 <ul>
                     <li>메뉴1 </li>
