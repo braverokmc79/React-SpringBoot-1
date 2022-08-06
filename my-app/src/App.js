@@ -4,24 +4,27 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotFound from './pages/NotFound';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './App.css';
 
 
+import ListPage from './pages/ListPage';
+import WritePage from './pages/WritePage';
+import Navigation from './components/Navigation';
+
+//글쓰기,글삭제,글목록보기
 
 function App() {
   return (
-
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} >
-        <Route path="/login/:id" element={<LoginPage />} />
-      </Route>
-      <Route path="*" element={<NotFound />} />
-    </Routes >
-
+    <div>
+      {/* <Navigation /> */}
+      <Navigation />
+      <Routes>
+        <Route path='/' element={<ListPage />} />
+        <Route path='/write' element={<WritePage />} />
+      </Routes>
+    </div>
 
   );
+
 }
 
 

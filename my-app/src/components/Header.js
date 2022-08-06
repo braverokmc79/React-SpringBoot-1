@@ -38,12 +38,11 @@ const Header = () => {
         <>
             <Navbar bg="primary" variant="dark">
                 <Container>
-                    <Navbar.Brand href="#">Navbar</Navbar.Brand>
+                    <Navbar.Brand href="#">Macaronics</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link href="/">홈</Nav.Link>
-                        <Link to="/login" className='nav-link StyleHeadLink'>로그인</Link>
-                        <Nav.Link href="/login">로그인</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
+                        <Link to="/" className='nav-link StyleHeadLink'>홈</Link>
+                        <Link to="/" className='nav-link StyleHeadLink'>목록</Link>
+                        <Link to="/write" className='nav-link StyleHeadLink'>글쓰기</Link>
                     </Nav>
                 </Container>
             </Navbar>
