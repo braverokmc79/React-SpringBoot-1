@@ -45,3 +45,18 @@
   background-color: burlywood;
   color: rgb(64, 159, 116);
 }
+
+ 
+ *:focus, *:active , .navbar-nav:focus, .navbar-nav:active,.nav-link:focus, .nav-link:active ,.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border:none !important;
+}
+nav:focus,div:focus, textarea:focus ,button:focus, input:focus , a, a:focus,
+nav:active,div:active, textarea:active ,button:active, input:active , a, a:active 
+{
+  outline: none  !important;
+  box-shadow: none !important;
+  border:none !important;
+}
+ 
