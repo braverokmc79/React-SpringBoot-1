@@ -1,62 +1,15 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-.hello{
-  color: red;
-}
-.box-style{
-  background-color: burlywood;
-  color: rgb(64, 159, 116);
-}
 
  
- *:focus, *:active , .navbar-nav:focus, .navbar-nav:active,.nav-link:focus, .nav-link:active ,.btn:focus, .btn:active {
-  outline: none !important;
-  box-shadow: none !important;
-  border:none !important;
-}
-nav:focus,div:focus, textarea:focus ,button:focus, input:focus , a, a:focus,
-nav:active,div:active, textarea:active ,button:active, input:active , a, a:active 
-{
-  outline: none  !important;
-  box-shadow: none !important;
-  border:none !important;
-}
+div{
  
+  padding: 10px;
+}
+.container{
+  height: 700;
+  border: 2px solid black;
+}
+.sub_container{
+  height: 250px;
+  border: 2px solid black;
+}
+
