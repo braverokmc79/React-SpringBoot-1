@@ -1,10 +1,18 @@
 package com.cos.demo.web;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.demo.domain.Book;
+import com.cos.demo.domain.BookRepository;
 import com.cos.demo.service.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,7 +49,17 @@ public class BookControllerItegreTest {
 	private MockMvc mockMvc;
 	
 	@Autowired
-	private BookService bookService;
+	private BookRepository bookRepository;
+	
+	@Autowired
+	private EntityManager entityManager;
+	
+	
+	@BeforeEach
+	public void init(){
+		entityManager.createNamedQuery("ALTER TABLE book ALTER COLUMN id RESTART WITH 1").executeUpdate();
+	}
+	
 	
 	@Test
 	public void save_테스트() throws Exception {
@@ -65,15 +84,40 @@ public class BookControllerItegreTest {
 	
 	
 	
+	
 	@Test
-	public void test1(){
-		//DB insert
+	public void findAll_테스트() throws Exception{
+		//given
+		List<Book> books=new ArrayList<>();
+		books.add(new Book(1L,"스프링부트 따라하기", "코스"));
+		books.add(new Book(2L,"리엑트 따라하기", "코스"));		
+		
+		bookRepository.saveAll(books);
+		
+		//when
+		ResultActions resultActions=mockMvc.perform(get("/book")
+				.accept(MediaType.APPLICATION_JSON));
+			
+		//공식문서 : https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing
+		//https://jsonpath.com/
+		//then 
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$", Matchers.hasSize(2)))
+			.andExpect(jsonPath("$.[0].title").value("스프링부트 따라하기"))
+			.andDo(MockMvcResultHandlers.print());		
 	}
+	
+	
 	
 	@Test
 	public void test2(){
 		//DB insert	
 	}
+	
+	
+	
+	
 	
 	
 }
