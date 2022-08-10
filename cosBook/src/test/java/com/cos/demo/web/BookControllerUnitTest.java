@@ -1,8 +1,11 @@
 package com.cos.demo.web;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -72,8 +76,7 @@ public class BookControllerUnitTest {
 		
 		//결과값을 미리 설정
 		when(bookService.getAllBook()).thenReturn(books);
-		
-		
+				
 		//when
 		ResultActions resultActions=mockMvc.perform(get("/book")
 				.accept(MediaType.APPLICATION_JSON));
@@ -90,15 +93,12 @@ public class BookControllerUnitTest {
 	
 
 	@Test
-	public void findById_테스트() throws Exception{
-		
+	public void findById_테스트() throws Exception{		
 		Long id=1L;
 		when(bookService.getBook(id)).thenReturn(new Book(1L, "자바 공부하기", "쌀"));
-		
-		
+				
 		ResultActions resultActions=mockMvc.perform(get("/book/{id}", id)
 				.accept(MediaType.APPLICATION_JSON));
-
 		
 		//then
 		resultActions
@@ -110,10 +110,59 @@ public class BookControllerUnitTest {
 	
 	
 	
+	@Test
+	public void update_테스트() throws Exception{
+		Long id=1L;
+		Book book=new Book(id, "C++ 따라하기","코스");
+		String content=new ObjectMapper().writeValueAsString(book);
+	
+		//결과값을 미리 설정
+		when(bookService.updateBook(id,book)).thenReturn(new Book(id,"C++ 따라하기","코스"));
+		
+		//when
+		ResultActions resultActions=mockMvc.perform(
+				put("/book/{id}", id)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(content)
+				.accept(MediaType.APPLICATION_JSON));
+				
+		//공식문서 : https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing
+		//https://jsonpath.com/
+		//then 
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.title").value("C++ 따라하기"))
+			.andDo(MockMvcResultHandlers.print());						
+	}
 	
 	
 	
 	
+	@Test
+	public void delete_테스트() throws Exception{	
+		Long id=1L;
+		Book book=new Book(id, "C++ 따라하기","코스");
+		bookService.saveBook(book);
+		
+		//삭제처리시 예상값
+		when(bookService.deletBook(id)).thenReturn("ok");
+				
+		//when
+		ResultActions resultActions=mockMvc.perform(delete("/book/{id}", id)
+				.accept(MediaType.TEXT_PLAIN));
+		
+		//then
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(MockMvcResultHandlers.print());
+				
+		MvcResult requestResult=resultActions.andReturn();
+		String result=requestResult.getResponse().getContentAsString();
+		
+		log.info("1.resultActions  ==>{}", resultActions);
+		log.info("2.result  ==>{}", result);		
+		assertEquals("ok", result);			
+	}
 	
 	
 	

@@ -14,7 +14,9 @@ import com.cos.demo.domain.Book;
 import com.cos.demo.service.BookService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class BookController {
@@ -50,8 +52,8 @@ public class BookController {
 
 	
 	@DeleteMapping("/book/{id}")
-	public ResponseEntity<?> deleteById(@PathVariable Long id, @RequestBody Book book){
-		return new ResponseEntity<>(bookService.updateBook(id, book), HttpStatus.OK);
+	public ResponseEntity<?> deleteById(@PathVariable Long id){	
+		return new ResponseEntity<>(bookService.deletBook(id), HttpStatus.OK);
 	}
 	
 	

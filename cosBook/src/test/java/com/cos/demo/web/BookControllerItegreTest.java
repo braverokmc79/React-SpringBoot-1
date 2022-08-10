@@ -1,8 +1,11 @@
 package com.cos.demo.web;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -12,6 +15,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,10 +60,20 @@ public class BookControllerItegreTest {
 	private EntityManager entityManager;
 	
 	
-	@BeforeEach
-	public void init(){
-		entityManager.createNamedQuery("ALTER TABLE book ALTER COLUMN id RESTART WITH 1").executeUpdate();
-	}
+//	@BeforeEach
+//	public void init(){
+//		List<Book> books =new ArrayList<Book>();
+//		books.add(new Book(null,"스프링부트 따라하기","코스"));
+//		books.add(new Book(null,"리엑트 따라하기","코스"));
+//		books.add(new Book(null,"JUnit 따라하기","코스"));
+//		bookRepository.saveAll(books);
+//		entityManager.createNamedQuery("ALTER TABLE book ALTER COLUMN id RESTART WITH 1").executeUpdate();
+//	}
+//	
+//	@AfterEach
+//	public void end(){
+//		bookRepository.deleteAll();
+//	}
 	
 	
 	@Test
@@ -111,12 +126,87 @@ public class BookControllerItegreTest {
 	
 	
 	@Test
-	public void test2(){
-		//DB insert	
+	public void findById_테스트() throws Exception{				
+		List<Book> books =new ArrayList<Book>();
+		books.add(new Book(null,"스프링부트 따라하기","코스"));
+		books.add(new Book(null,"리엑트 따라하기","코스"));
+		books.add(new Book(null,"JUnit 따라하기","코스"));
+		bookRepository.saveAll(books);
+		
+		Long id=1L;
+		
+		ResultActions resultActions=mockMvc.perform(get("/book/{id}", id)
+				.accept(MediaType.APPLICATION_JSON));
+		
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.title").value("스프링부트 따라하기"))
+			.andDo(MockMvcResultHandlers.print());				
+	}
+	
+	
+	@Test
+	public void update_테스트() throws Exception{
+		Long id=1L;
+		List<Book> books =new ArrayList<Book>();
+		books.add(new Book(null,"스프링부트 따라하기","코스"));
+		books.add(new Book(null,"리엑트 따라하기","코스"));
+		books.add(new Book(null,"JUnit 따라하기","코스"));
+		bookRepository.saveAll(books);
+		
+		
+		Book book=new Book(id, "C++ 따라하기","코스");
+		String content=new ObjectMapper().writeValueAsString(book);
+		//영속성 객체 가져오기
+		Book entitiy=bookRepository.findById(id).orElseThrow(()->new IllegalArgumentException("ID 를 찾을 수 없습니다."));
+		entitiy.setTitle(book.getTitle());
+		
+	
+		//when
+		ResultActions resultActions=mockMvc.perform(
+				put("/book/{id}", id)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(content)
+				.accept(MediaType.APPLICATION_JSON));
+			
+		
+		//공식문서 : https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing
+		//https://jsonpath.com/
+		//then 
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.title").value("C++ 따라하기"))
+			.andDo(MockMvcResultHandlers.print());						
 	}
 	
 	
 	
+	@Test
+	public void delete_테스트() throws Exception{	
+		Long id=1L;
+		Book book=new Book(id, "C++ 따라하기","코스");
+		bookRepository.save(book);
+		
+		//삭제처리시 예상값
+		//when(bookService.deletBook(id)).thenReturn("ok");
+				
+		//when
+		ResultActions resultActions=mockMvc.perform(delete("/book/{id}", id)
+				.accept(MediaType.TEXT_PLAIN));
+		
+		//then
+		resultActions
+		.andExpect(status().isOk())
+		.andDo(MockMvcResultHandlers.print());
+				
+		MvcResult requestResult=resultActions.andReturn();
+		String result=requestResult.getResponse().getContentAsString();
+		
+		log.info("1.resultActions  ==>{}", resultActions);
+		log.info("2.result  ==>{}", result);		
+		assertEquals("ok", result);			
+	}
 	
 	
 	

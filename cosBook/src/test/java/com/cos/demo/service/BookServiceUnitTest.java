@@ -1,5 +1,6 @@
 package com.cos.demo.service;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,6 +19,9 @@ public class BookServiceUnitTest {
 	@Mock
 	private BookRepository bookRepository;
 	
+	@Test
+	public void save_테스트(){		
 	
+	}
 	
 }
