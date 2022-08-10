@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cos</groupId>
-	<artifactId>cosBook</artifactId>
+	<artifactId>cosBook-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>book</name>
+	<name>cosBook-backend</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>

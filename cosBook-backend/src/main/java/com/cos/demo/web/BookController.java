@@ -14,50 +14,39 @@ import com.cos.demo.domain.Book;
 import com.cos.demo.service.BookService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @RequiredArgsConstructor
 @RestController
 public class BookController {
-
 	
 	private final BookService bookService;
-	
 	
 	@PostMapping("/book")
 	public ResponseEntity<?> save(@RequestBody Book book){			
 		return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
 	}
 	
-	
-	
 	@GetMapping("/book")
 	public ResponseEntity<?> findAll(){		
 		return new ResponseEntity<>(bookService.getAllBook(), HttpStatus.OK);
 	}
 	
-	
-	
 	@GetMapping("/book/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id){		
 		return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);	
 	}
-	
-	
+		
 	@PutMapping("/book/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Book book){
 		return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);
 	}
 
-	
 	@DeleteMapping("/book/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Long id){	
 		return new ResponseEntity<>(bookService.deletBook(id), HttpStatus.OK);
 	}
-	
-	
-	
+		
 }
 
 
