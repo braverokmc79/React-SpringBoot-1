@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Container } from 'react-bootstrap/Container';
+import { Route, Routes } from 'react-router-dom';
+
+import './App.css'
+import HomePage from './pages/HomePage';
+import SaveForm from './pages/book/SaveForm';
+import Detail from './pages/book/Detail';
+import LoginForm from './pages/user/LoginForm';
+import JoinForm from './pages/user/JoinForm';
+import UpdateForm from './pages/book/UpdateForm';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route path="/saveForm" element={<SaveForm />} />
+      <Route path="/book/:id" element={<Detail />} />
+      <Route path="/loginForm" element={<LoginForm />} />
+      <Route path="/joinForm" element={<JoinForm />} />
+      <Route path="/updateForm/:id" element={<UpdateForm />} />
+    </Routes>
   );
 }
 
 export default App;
+
+
