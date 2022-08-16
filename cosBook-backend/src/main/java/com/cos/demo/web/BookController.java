@@ -23,6 +23,7 @@ public class BookController {
 	
 	private final BookService bookService;
 	
+	//security(라이브러리 적용) - CORS 정책을 가지고 있음(시큐리티가 CORS 를 해제)	
 	@PostMapping("/book")
 	public ResponseEntity<?> save(@RequestBody Book book){			
 		return new ResponseEntity<>(bookService.saveBook(book), HttpStatus.CREATED);
