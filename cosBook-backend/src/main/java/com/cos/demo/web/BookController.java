@@ -16,7 +16,7 @@ import com.cos.demo.service.BookService;
 
 import lombok.RequiredArgsConstructor;
 
-
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 public class BookController {

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const BookItem = (props) => {
 
-    console.log(props);
     const { id, title, author } = props.book;
 
     return (

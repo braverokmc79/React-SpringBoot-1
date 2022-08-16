@@ -16,7 +16,6 @@ const Home = () => {
         ); //비동기 함수
     }, [])
 
-
     return (
         <div>
             <Container >
