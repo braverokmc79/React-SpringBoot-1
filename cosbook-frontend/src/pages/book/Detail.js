@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container } from "react-bootstrap";
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button, Container } from "react-bootstrap";
 
 const Detail = () => {
     const { id } = useParams();
+    let navigate = useNavigate();
 
     const [book, setBook] = useState({
         title: '',
@@ -26,12 +27,37 @@ const Detail = () => {
 
     }, [])
 
+    const deleteBook = () => {
+
+        fetch("http://localhost:8080/book/" + id, {
+            method: "DELETE",
+        })
+            .then((res) => res.text())
+            .then((data) => {
+                console.log("data : ", data);
+                if (data === "ok") {
+                    navigate("/");
+                }
+            })
+            .catch(error => {
+                console.log("에러 ", error);
+            })
+    }
+
+    const updateBook = () => {
+        navigate("/updateForm/" + id);
+    }
+
+
     return (
         <Container>
             <h1>책 상세보기</h1>
+            <Button variant='warning' className='me-3' onClick={updateBook}>수정</Button>
+            {''}
+            <Button variant='danger' onClick={deleteBook}>삭제</Button>
             <hr />
-            <h3>{book.author}</h3>
-            <h1>{book.title}</h1>
+            <h3>저자 - {book.author}</h3>
+            <h1>제목 - {book.title}</h1>
         </Container>
     );
 };

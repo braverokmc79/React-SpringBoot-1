@@ -42,7 +42,7 @@ public class BookService {
 		//영속화(book 오브젝트)-> 영속성 컨텍스트 보관
 		Book bookEntity=bookRepository.findById(id).orElseThrow(()->new IllegalArgumentException("id 를 확인해 주세요.!")); 
 		
-		bookEntity.setTitle(book.getAuthor());
+		bookEntity.setTitle(book.getTitle());
 		bookEntity.setAuthor(book.getAuthor());
 		return bookEntity;
 	}//함수 종료 => 트랜잭션 종료 => 영속화 되어있는 데이터를 DB로 갱신(flush) => commit =======> 더티체킹
